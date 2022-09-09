@@ -1,0 +1,22 @@
+pipeline:
+  environment:
+  parameters:
+    - "string defaultValue: '3', description: '', name: 'USERS', trim: false"
+  options:
+    - disableConcurrentBuilds()
+  agent:
+    any:
+  tools:
+    maven: Maven
+  stages:
+    - stage: Checkout
+      steps:
+        - git 'https://github.com/aytuncbeken/pipeline-as-yaml-tutorials.git'
+    - stage: Maven
+      stages:
+        - stage: Build
+          steps:
+            - sh 'mvn clean compile'
+  post:
+    always:
+      - cleanWs()
